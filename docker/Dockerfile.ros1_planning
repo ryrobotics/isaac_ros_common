@@ -1,0 +1,17 @@
+# Dockerfile for setting up ros1-related dev env
+# https://github.com/ryrobotics/USR_Docker
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-noetic-mavros ros-noetic-mavros-extras ros-noetic-mavros-msgs \
+    ros-noetic-perception \
+    ros-noetic-roslint \
+    ros-noetic-rviz \
+    ros-noetic-serial \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh \
+    && chmod a+x install_geographiclib_datasets.sh \
+    && ./install_geographiclib_datasets.sh \
+    && rm -rf ./install_geographiclib_datasets.sh
